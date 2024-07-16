@@ -1,5 +1,3 @@
-//const { response } = require("express");
-
 const weatherInfo = document.getElementById('weather-info');
 const cityName = document. getElementById('city');
 const form = document.querySelector('form');
@@ -16,7 +14,6 @@ form.addEventListener("submit", (event) => {
 async function getWeatherInfo(cityValue) {
     try {
         const response = await fetch(`/api?q=${cityValue}&units=imperial`);
-        //const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityValue}&units=imperial&appid=${apikey}`);
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
@@ -25,7 +22,6 @@ async function getWeatherInfo(cityValue) {
         const temperature = Math.round(data.main.temp);
         let description = data.weather[0].description; 
         const icon = data.weather[0].icon; 
-        //const icon = `img/weather/${weather[0]['icon']}.svg`;
 
         const elements = [
             `Feels like: ${Math.round(data.main.feels_like)}°F`,
@@ -64,14 +60,12 @@ async function getWeatherInfo(cityValue) {
       styleNode.innerHTML = `html body { background-image: url('${backgroundImage}'); }`;
 
         weatherInfo.querySelector('.city-name').innerHTML = `The weather in ${cityValue}`;
-        //weatherInfo.querySelector('.weather-icon').innerHTML = `<img src="http://openweathermap.org/img/wn/${icon}.png" alt="Weather Icon">`;
         weatherInfo.querySelector('.weather-icon').innerHTML = `<img src="img/weather/${icon}.png">`;
         weatherInfo.querySelector('.air-temperature').textContent = `${temperature}°F`;
         weatherInfo.querySelector('.weather-description').textContent = description;
         weatherInfo.querySelector('.elements').innerHTML = elements.map((element) => `<div>${element}</div>`).join("");
     } catch (error) {
         weatherInfo.querySelector('.city-name').innerHTML = "";
-        //weatherInfo.querySelector('.weather-icon').innerHTML = "";
         weatherInfo.querySelector('.air-temperature').textContent = "";
         weatherInfo.querySelector('.weather-description').textContent = "Please enter a valid city.";
         weatherInfo.querySelector('.elements').innerHTML = "";
